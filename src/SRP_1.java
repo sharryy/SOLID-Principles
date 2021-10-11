@@ -1,33 +1,36 @@
-/*
-In this example, there is too much responsibility on SalesReporter Class.
-Why this class should care about Authentication of User or any core DB QUERY.
-It should only concern with Data provided to it regardless how.
-Furthermore, this class doesn't need to care about formatting as well.
-So, this is breaking Single-Responsibility Principle.
- */
-
 public class SRP_1 {
     public static void main(String[] args) throws Exception {
-        SalesReporter salesReporter = new SalesReporter();
-        salesReporter.between(12, 12);
+        SalesReporter salesReporter = new SalesReporter(new SalesRepository(), new AuthChecking(12));
+        System.out.println(salesReporter.between(12, 12, new JSONOutput()));
     }
 }
 
 class SalesReporter {
-    public String between(int startDate, int endDate) throws Exception {
+    public SalesRepository repo;
+    public AuthChecking auth;
+
+    public SalesReporter(SalesRepository repository, AuthChecking auth) {
+        this.repo = repository;
+        this.auth = auth;
+    }
+
+    public String between(int startDate, int endDate, SalesOutputInterface formatter) throws Exception {
 
         //FIRST CHECKING AUTHENTICATION OF USER
         //IF USER IS NOT AUTHENTICATED THEN THROW SOME ERROR.
-        if (!Auth::check) throw new Exception("Authentication Required for Reporting");
+        if (!this.auth.isUserLoggedIn()) throw new Exception("Authentication Required for Reporting");
 
-        String data = queryDBForSalesBetween(startDate, endDate);
+        //SEGREGATING RESPONSIBILITIES OF CLASS
+        String data = this.repo.between(startDate, endDate);
 
         //RETURN DATA TO VIEW
-        return format(data);
+        return formatter.output(data);
 
     }
+}
 
-    private String queryDBForSalesBetween(int startDate, int endDate) {
+class SalesRepository {
+    public String between(int startDate, int endDate) {
         /*
         DO SOME SQL STUFF HERE.
         QUERY DATABASE FOR GIVEN DATES AND RETURN THE DATA TO USERS.
@@ -37,13 +40,52 @@ class SalesReporter {
 
         return "DATA";
     }
+}
 
-    private String format(String unformattedData) {
+class AuthChecking {
+    public int user_id;
+
+    public AuthChecking(int user_id) {
+        this.user_id = user_id;
+    }
+
+    public boolean isUserLoggedIn() {
         /*
+        Use some helpers to determine if user is logged in or not.
+        LIKE Auth::check(this.user_id) and return boolean results
+        based on that.
+         */
+        return true;
+    }
+}
+
+class HTMLOutput implements SalesOutputInterface {
+
+    @Override
+    public String output(String data) {
+         /*
         FORMAT THE DATA FOR PASSING TO VIEW. LIKE FORMATTING
         DATE TO HUMAN-READABLE OR LIKE THAT..
          */
 
         return "FORMATTED DATA";
     }
+}
+
+class JSONOutput implements SalesOutputInterface {
+
+    @Override
+    public String output(String data) {
+         /*
+        FORMAT THE DATA FOR PASSING TO SOME SORT OF API.
+        LIKE FORMATTING
+        DATE TO HUMAN-READABLE OR LIKE THAT.
+         */
+
+        return "JSON FORMATTED DATA";
+    }
+}
+
+interface SalesOutputInterface {
+    String output(String data);
 }

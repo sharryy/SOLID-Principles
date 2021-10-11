@@ -71,7 +71,7 @@ class SuspendedAccountValidator implements ValidatorInterface {
     public boolean validate() {
         System.out.println("Validating Suspended Account Record..");
 
-//        Fetching Info from DB using receipt -no.to validate duplicate order..
+//        Fetching Info from DB using receipt -no.to validate duplicate order.
         return true;
     }
 }

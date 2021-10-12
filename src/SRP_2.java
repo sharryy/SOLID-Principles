@@ -1,7 +1,7 @@
 public class SRP_2 {
     public static void main(String[] args) {
-        Book book = new Book("lorem", "ipsum", "color", "met", new DownloadBook());
-        Book book2 = new Book("lorem", "ipsum", "color", "met");
+        Book book = new Book("lorem", "ipsum", "color", "met", true);
+        Book book2 = new Book("lorem", "ipsum", "color", "met", false);
         book.downloadBook(book);
         book2.printPage(book2, new PrintXMLOutput());
     }
@@ -21,12 +21,13 @@ class Book {
         this.page = page;
     }
 
-    public Book(String title, String author, String ISBN, String page, DownloadBook downloadBook) {
+    public Book(String title, String author, String ISBN, String page, boolean downloadBook) {
         this.title = title;
         this.author = author;
         this.ISBN = ISBN;
         this.page = page;
-        this.downloadAndPersistBook = downloadBook;
+        if (downloadBook)
+            this.downloadAndPersistBook = new DownloadBook();
     }
 
     public void downloadBook(Book book) {

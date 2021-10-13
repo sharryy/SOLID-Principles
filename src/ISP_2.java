@@ -1,34 +1,61 @@
 /*
-In this example, the interface contains many methods which are futile
-to other classes. This breaks Interface-Segregation Principle, Open-Closed
-Principle as we are type checking and also Liskov Substitution principle.
-Since we are introducing exceptions in child classes. So we can't safely
-replace Abstraction with Implementations.
+Now by segregating the interface, we have abide by Interface
+Segregation principle. And by introducing IOrder Interface
+we have also conformed Open-Closed Principle.
  */
 
 public class ISP_2 {
     public static void main(String[] args) {
-        Customer customer = new Customer();
+        Customer customer = new Customer(12);
 
         /*
-        Now this BurgerOrderService shouldn't have access to orderFries
-        method. Since this order doesn't involve ordering fries. So we
-        have to apply Interface-Segregation Principle.
+        Now the classes have only  accessed relevant methods.
          */
-        customer.order(new BurgerOrderService().orderFries());
+        customer.order(new ComboOrderService());
+        customer.order(new BurgerOrderService());
+        customer.order(new FriesOrderService());
     }
 }
 
 
-interface OrderService {
+interface IBurger {
     void orderBurger(int quantity);
-
-    void orderFries(int fries);
-
-    void orderCombo(int quantity, int fries);
 }
 
-class BurgerOrderService implements OrderService {
+interface IFries {
+    void orderFries(int fries);
+}
+
+interface IOrder {
+    void order(int quantity);
+}
+
+class BurgerOrderService implements IBurger, IOrder {
+
+    @Override
+    public void orderBurger(int quantity) {
+        System.out.println("Received order of " + quantity + " burgers");
+    }
+
+    @Override
+    public void order(int quantity) {
+        this.orderBurger(quantity);
+    }
+}
+
+class FriesOrderService implements IFries, IOrder {
+    @Override
+    public void orderFries(int fries) {
+        System.out.println("Received order of " + fries + " fries");
+    }
+
+    @Override
+    public void order(int quantity) {
+        this.orderFries(quantity);
+    }
+}
+
+class ComboOrderService implements IFries, IBurger, IOrder {
 
     @Override
     public void orderBurger(int quantity) {
@@ -37,61 +64,24 @@ class BurgerOrderService implements OrderService {
 
     @Override
     public void orderFries(int fries) {
-        throw new UnsupportedOperationException("No fries in burger only order"); // <---- Client Don't Need Methods of the Interface
-    }
-
-    @Override
-    public void orderCombo(int quantity, int fries) {
-        throw new UnsupportedOperationException("No combo in burger only order"); // <---- Client Don't Need Methods of the Interface
-    }
-}
-
-class FriesOrderService implements OrderService {
-
-    @Override
-    public void orderBurger(int quantity) {
-        throw new UnsupportedOperationException("No burgers in fries only order"); // <---- Client Don't Need Methods of the Interface
-    }
-
-    @Override
-    public void orderFries(int fries) {
         System.out.println("Received order of " + fries + " fries");
     }
 
     @Override
-    public void orderCombo(int quantity, int fries) {
-        throw new UnsupportedOperationException("No combo in fries only order"); // <---- Client Don't Need Methods of the Interface
-    }
-}
-
-class ComboOrderService implements OrderService {
-
-    @Override
-    public void orderBurger(int quantity) {
-        throw new UnsupportedOperationException("No burger only in combo order"); // <---- Client Don't Need Methods of the Interface
-    }
-
-    @Override
-    public void orderFries(int fries) {
-        throw new UnsupportedOperationException("No fries only in combo order"); // <---- Client Don't Need Methods of the Interface
-    }
-
-    @Override
-    public void orderCombo(int quantity, int fries) {
-        System.out.println("Served Burger and Fries");
+    public void order(int quantity) {
+        this.orderBurger(quantity);
+        this.orderFries(quantity);
     }
 }
 
 class Customer {
-    public void order(OrderService orderService) {
+    public int quantity;
 
-        /*
-        Breaking Open-Closed Principle
-         */
-        if (orderService instanceof BurgerOrderService) {
-            //Handle Exceptions Accordingly.
-        } else if (orderService instanceof FriesOrderService) {
-            //Handle Exceptions Accordingly
-        }
+    public Customer(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public void order(IOrder iOrder) {
+        iOrder.order(this.quantity);
     }
 }

@@ -48,12 +48,14 @@ class AviVideoPlayer extends VideoPlayer {
         file extension. The file to be playable by AviPlayer
         should end with .avi
          */
-        if (file.extension == 'avi' && file != null) {
-            /*
-            Play The video to the user as doing above.
-             */
-        } else {
-            throw new RuntimeException();
-        }
+
+        // FIXME: 10/13/2021
+//        if (file.extension == 'avi' && file != null) {
+//            /*
+//            Play The video to the user as doing above.
+//             */
+//        } else {
+//            throw new RuntimeException();
+//        }
     }
 }

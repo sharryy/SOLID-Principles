@@ -1,12 +1,10 @@
 /*
-In this silly but understandable example, we can see that
-human worker needs to work as well needs proper sleep to avoid
-exhaustion. But an android worker doesn't need sleep since it is
-a machine but according to our design strategy, AndroidWorker class
-has to implement sleep() method as respected by the Interface
-contract. So this is violation of Interface-Segregation Principle
-that a client shouldn't be forced to implement those methods which
-is not applicable to him.g
+In the correction code, we segregated the bad interface into
+different interfaces and implemented to class as their
+needs. The other interface which is Manageable Interface is
+there to preserve Open-Closed Principle. Since if we don't use
+it we have to type check at runtime which methods to call of
+which instance.
  */
 
 public class ISP_1 {
@@ -17,13 +15,20 @@ public class ISP_1 {
     }
 }
 
-interface WorkerInterface {
+interface WorkableInterface {
     String work();
+}
 
+interface SleepableInterface {
     String sleep();
 }
 
-class HumanWorker implements WorkerInterface {
+interface ManageableInterface {
+    void beManaged();
+}
+
+class HumanWorker implements WorkableInterface, SleepableInterface, ManageableInterface {
+
     @Override
     public String work() {
         return "Human Working";
@@ -33,25 +38,29 @@ class HumanWorker implements WorkerInterface {
     public String sleep() {
         return "Human Sleeping";
     }
-}
-
-class AndroidWorker implements WorkerInterface {
 
     @Override
+    public void beManaged() {
+        this.work();
+        this.sleep();
+    }
+}
+
+class AndroidWorker implements WorkableInterface, ManageableInterface {
+    @Override
     public String work() {
-        return "Android Worker Working";
+        return "Android Working";
     }
 
     @Override
-    public String sleep() {
-        return null;        // <------- THIS IS WHERE PROBLEM BEGINS
+    public void beManaged() {
+        this.work();
     }
 }
 
 class Captain {
-    public void manage(WorkerInterface worker) {
-        worker.work();
-        worker.sleep();
+    public void manage(ManageableInterface worker) {
+        worker.beManaged();
     }
 }
 

@@ -17,9 +17,6 @@ not violated.
 
  */
 
-public class DIP_1 {
-}
-
 interface ConnectionInterface {
     boolean connect();
 }

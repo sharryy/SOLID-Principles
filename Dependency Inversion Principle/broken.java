@@ -13,13 +13,6 @@ It should not know about these details.
 
  */
 
-public class broken {
-    public static void main(String[] args) {
-
-    }
-}
-
-
 class PasswordReminder {
 
     public String dbConnection;

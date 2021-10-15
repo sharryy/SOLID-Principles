@@ -4,7 +4,7 @@ we have to modify existing code so that to cater that type.
 So our class is open for modification as well.
  */
 
-public class OCP_1 {
+public class broken {
     public static void main(String[] args) {
         Rectangle Rectangle = new Rectangle(10, 10);
         Circle circle = new Circle(10);
@@ -69,3 +69,4 @@ class AreaCalculator {
             ((Rectangle) shapes).area();
     }
 }
+

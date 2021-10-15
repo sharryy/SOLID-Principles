@@ -1,4 +1,4 @@
-public class SRP_2 {
+public class refactored2 {
     public static void main(String[] args) {
         Book book = new Book("lorem", "ipsum", "color", "met", true);
         Book book2 = new Book("lorem", "ipsum", "color", "met", false);

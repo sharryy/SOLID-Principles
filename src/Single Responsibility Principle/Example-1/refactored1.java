@@ -1,4 +1,4 @@
-public class SRP_1 {
+public class refactored1 {
     public static void main(String[] args) throws Exception {
         SalesReporter salesReporter = new SalesReporter(new SalesRepository(), new AuthChecking(12));
         System.out.println(salesReporter.between(12, 12, new JSONOutput()));

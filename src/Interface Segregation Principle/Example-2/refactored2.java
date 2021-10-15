@@ -4,7 +4,7 @@ Segregation principle. And by introducing IOrder Interface
 we have also conformed Open-Closed Principle.
  */
 
-public class ISP_2 {
+public class refactored2 {
     public static void main(String[] args) {
         Customer customer = new Customer(12);
 

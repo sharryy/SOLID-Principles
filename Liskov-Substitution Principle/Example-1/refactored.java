@@ -5,7 +5,7 @@ exception types similar, so similar types of exceptions are thrown if abstractio
 are replaced by their implementations.
  */
 
-public class refactored1 {
+public class refactored {
     public static void main(String[] args) {
         functionfoo(new AviVideoPlayer());
     }

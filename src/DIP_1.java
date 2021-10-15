@@ -6,7 +6,8 @@ Dependency Inversion States that :
 
 "High-level module should depend upon Abstractions
 while low-level module should also depend upon Abstractions
-and they both shouldn't depend upon each other."
+and they both shouldn't depend upon each other.
+& Details should depend upon ABSTRACTIONS"
 
 In this piece of code, PASSWORD REMINDER (high-level module)
 depends upon CONNECTION INTERFACE (abstraction) while

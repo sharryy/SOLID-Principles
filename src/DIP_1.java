@@ -1,27 +1,40 @@
 import java.sql.SQLData;
 
 /*
-The Password Reminder class does follow Dependency Injection
-as we are injecting dependencies of a class in the constructor,
-but it violates Dependency Injection Principle.
-WHY THE HELL PASSWORD REMINDER CARE ABOUT DATABASE???????????
-IT SHOULD JUST KNOW THAT THERE IS SOME INTERFACE FROM WHERE IT CAN
-CONNECT TO DATABASE!!
+Know Just Look at the Refactored Code.
+Dependency Inversion States that :
 
-ONE SINGLE QUESTION : Why password reminder have knowledge about database.
-It should not know about these details.
+"High-level module should depend upon Abstractions
+while low-level module should also depend upon Abstractions
+and they both shouldn't depend upon each other."
+
+In this piece of code, PASSWORD REMINDER (high-level module)
+depends upon CONNECTION INTERFACE (abstraction) while
+DBCONNECTION (low-level module) also depends upon
+CONNECTION INTERFACE (abstraction). Hence the principle is
+not violated.
 
  */
 
 public class DIP_1 {
 }
 
+interface ConnectionInterface {
+    boolean connect();
+}
+
+class DBConnection implements ConnectionInterface {
+
+    @Override
+    public boolean connect() {
+        //Implement Connect Method
+        return false;
+    }
+}
 
 class PasswordReminder {
 
-    public String dbConnection;
-
-    public PasswordReminder(SQLData connection) {
+    public PasswordReminder(ConnectionInterface connection) {
         /*
         Connecting to Database and fetching data.
          */

@@ -6,7 +6,7 @@ Class is Open for Extending but closed for
 modification.
  */
 
-public class refactored2 {
+public class refactored {
     public static void main(String[] args) {
         OrderProcessor orderProcessor = new OrderProcessor();
         String result = orderProcessor.fetchOrderDetails(new OrderValidator(new DuplicateOrderValidator("BD-12"), new SuspendedAccountValidator(12)));

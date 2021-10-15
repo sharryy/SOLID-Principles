@@ -4,7 +4,7 @@ import java.sql.SQLData;
 The Password Reminder class does follow Dependency Injection
 as we are injecting dependencies of a class in the constructor,
 but it violates Dependency Injection Principle.
-WHY THE HELL PASSWORD REMINDER CARE TO KNOW ABOUT DATABASE???????????
+WHY THE HELL PASSWORD REMINDER CARE ABOUT DATABASE???????????
 IT SHOULD JUST KNOW THAT THERE IS SOME INTERFACE FROM WHERE IT CAN
 CONNECT TO DATABASE!!
 

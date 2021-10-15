@@ -7,7 +7,7 @@ it we have to type check at runtime which methods to call of
 which instance.
  */
 
-public class refactored1 {
+public class refactored {
     public static void main(String[] args) {
         Captain captain = new Captain();
         captain.manage(new HumanWorker());

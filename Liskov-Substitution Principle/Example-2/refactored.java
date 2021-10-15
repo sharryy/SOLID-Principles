@@ -4,7 +4,7 @@ Making Post-Conditions same will abide by Liskov-Substitution principle.
 
 import java.util.HashMap;
 
-public class refactored2 {
+public class refactored {
     public static void main(String[] args) {
 
     }
